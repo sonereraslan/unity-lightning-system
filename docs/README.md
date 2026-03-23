@@ -14,19 +14,19 @@ A real-time procedural lightning simulation for Unity URP. Generates branching s
 
 ## Setup
 
-### 1. Add the prefab to your scene
+### 1. Add an empty Game Object to your scene
 
-Drag `PFB_LightningBolt` into your scene hierarchy.
+Name it ThunderManager. Add these 4 components to this game object: LightningRenderer, LightningAnimator, LightningLightController and LightningSystem.
 
 ### 2. Assign strike points
 
-On the `LightningBolt` GameObject, find the `Lightning System` component and assign:
+On the `ThunderManager` GameObject, create two empty game objects as children, name them Origin and Target, find the `Lightning System` component and assign:
 - **Origin Point** — a Transform at the start of the bolt (e.g. sky position)
 - **Target Point** — a Transform at the strike destination (e.g. ground)
 
 ### 3. Assign the material
 
-On the `Lightning Renderer` component, assign `M_LightningBolt` to the **Bolt Material** field.
+On the `Lightning Renderer` component, create an Unlit URP material and assign it to the **Bolt Material** field.
 
 ### 4. Enable Bloom
 
@@ -42,7 +42,7 @@ The bolt material emits at HDR value ~8, well above the threshold — Bloom driv
 
 ### Trigger from the Inspector
 
-Select the `LightningBolt` GameObject → right-click the `Lightning System` component header → **Trigger Strike**.
+Select the `ThunderManager` GameObject → right-click the `Lightning System` component header → **Trigger Strike**.
 
 ### Trigger from code
 
@@ -89,12 +89,13 @@ All parameters are exposed in the Inspector.
 | Fixed Seed | `42` | Deterministic seed — same shape every time when random seed is off |
 | Origin Point | — | Transform at the top of the bolt |
 | Target Point | — | Transform at the strike destination |
+| Thunder Clips | — | Randomly played thunder sounds |
 
 ### Lightning Renderer
 
 | Field | Default | Description |
 |---|---|---|
-| Bolt Material | — | URP Unlit HDR additive material. Assign `M_LightningBolt` |
+| Bolt Material | — | URP Unlit HDR additive material. |
 | Pool Size | `32` | Maximum simultaneous LineRenderers (main bolt + branches combined) |
 | Main Bolt Width | `0.08` | World-space width of the main channel in metres |
 | Branch Width Multiplier | `0.5` | Width scale per sub-branch depth level — deeper branches are thinner |
@@ -136,11 +137,6 @@ Scripts/Lightning/
   LightningBranch.cs           — Data: single branch path + metadata
   LightningStrike.cs           — Data: complete strike (main bolt + all branches)
 
-Materials/Lightning/
-  M_LightningBolt.mat          — URP Unlit, Additive blend, HDR white (intensity 3)
-
-Prefabs/Lightning/
-  PFB_LightningBolt.prefab     — Ready-to-use prefab with all components configured
 ```
 
 ---
